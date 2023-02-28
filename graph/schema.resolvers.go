@@ -6,9 +6,11 @@ package graph
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/KleKlai/todoappremake/graph/model"
+	database "github.com/KleKlai/todoappremake/infra"
 )
 
 // CreateTodo is the resolver for the createTodo field.
@@ -18,7 +20,25 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.CreateTod
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+
+	db, err := database.Open()
+
+	if err != nil {
+		return nil, err
+	}
+
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
+
+	svc := NewTodoService(NewTodoRepository(db))
+	res, err := svc.AddUser(&input)
+
+	if err != nil {
+		errors.New("Failed to add user")
+		return nil, err
+	}
+
+	return res, nil
 }
 
 // Todos is the resolver for the todos field.
