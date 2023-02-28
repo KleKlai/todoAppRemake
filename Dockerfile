@@ -2,9 +2,9 @@ FROM golang:latest
 
 WORKDIR /build
 
-COPY go.mod ./
+COPY go.mod .
 RUN go mod download
-COPY *.go ./
-RUN go build -o /server
+COPY . .
+RUN go build -o /server server.go
 
 ENTRYPOINT [ "/server" ]
