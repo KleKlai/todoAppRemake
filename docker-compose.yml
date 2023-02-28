@@ -14,7 +14,7 @@ services:
     networks:
       - todo_app_network
     ports:
-      - 8084:8080
+      - 8084:8084
 
   db:
     container_name: db-todo-app

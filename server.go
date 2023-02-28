@@ -35,7 +35,7 @@ func main() {
 	r.POST("/query", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	fmt.Printf("Starting....")
-	err := r.Run(":8086")
+	err := r.Run(":8084")
 
 	if err != nil {
 		fmt.Println(err)
