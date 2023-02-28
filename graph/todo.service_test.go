@@ -12,8 +12,8 @@ type TodoRepositoryMock struct {
 	mock.Mock
 }
 
-func (m *TodoRepositoryMock) AddUser(user model.User) (*model.User, error) {
-	args := m.Called(user)
+func (m *TodoRepositoryMock) AddUser(u model.User) (*model.User, error) {
+	args := m.Called(u)
 	return args.Get(0).(*model.User), args.Error(1)
 }
 
@@ -22,26 +22,37 @@ func (m *TodoRepositoryMock) GetUser(id string) (*model.User, error) {
 	return args.Get(0).(*model.User), args.Error(1)
 }
 
+func TestGetUser(t *testing.T) {
+
+	mock := &TodoRepositoryMock{}
+
+	s := NewTodoService(mock)
+
+	t.Run("success", func(t *testing.T) {
+		mock.On("GetUser", "1234567").Return(&model.User{}, nil)
+
+		_, err := s.GetUser("1234567")
+
+		require.NoError(t, err)
+		mock.AssertExpectations(t)
+	})
+}
+
 func TestAddUser(t *testing.T) {
 
 	m := &TodoRepositoryMock{}
-	s := NewTodoService(m)
 
 	u := model.CreateUserInput{}
 
+	s := NewTodoService(m)
+
 	t.Run("success", func(t *testing.T) {
 
-		m.On("AddUser", mock.Anything).Return(&u, nil)
-
-		// z := model.CreateUserInput{
-		// 	ID:   "1234567",
-		// 	Name: "Maynard Magallen",
-		// }
+		m.On("AddUser", mock.Anything).Return(&model.User{}, nil)
 
 		_, err := s.AddUser(&u)
 
-		require.Error(t, err)
+		require.Nil(t, err)
 		m.AssertExpectations(t)
 	})
-
 }

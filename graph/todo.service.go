@@ -33,3 +33,16 @@ func (s *TodoService) AddUser(user *model.CreateUserInput) (*model.User, error) 
 
 	return res, nil
 }
+
+func (s *TodoService) GetUser(id string) (*model.User, error) {
+
+	// Get the user from the database
+	res, err := s.repository.GetUser(id)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to get user: %v", err)
+		// return nil, errors.New("Failed to get user")
+	}
+
+	return res, nil
+}
