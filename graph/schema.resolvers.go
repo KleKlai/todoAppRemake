@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/KleKlai/todoappremake/graph/model"
@@ -34,8 +33,9 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUse
 	res, err := svc.AddUser(&input)
 
 	if err != nil {
-		errors.New("Failed to add user")
-		return nil, err
+		return nil, fmt.Errorf("Failed to add user: %v", err)
+		// errors.New("Failed to add user")
+		// return nil, err
 	}
 
 	return res, nil

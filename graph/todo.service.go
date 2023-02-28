@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/KleKlai/todoappremake/graph/model"
 )
@@ -27,7 +27,8 @@ func (s *TodoService) AddUser(user *model.CreateUserInput) (*model.User, error) 
 	res, err := s.repository.AddUser(u)
 
 	if err != nil {
-		return nil, errors.New("Failed to add user")
+		return nil, fmt.Errorf("Failed to add user: %v", err)
+		// return nil, errors.New("Failed to add user")
 	}
 
 	return res, nil

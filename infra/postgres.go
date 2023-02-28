@@ -1,20 +1,28 @@
 package infra
 
 import (
-	"errors"
 	"fmt"
+	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	pg "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Open() (*gorm.DB, error) {
 
+	var err = godotenv.Load()
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
 	var (
 		dbUser     = "postgres"
 		dbPassword = "postgres"
-		dbHost     = "localhost"
-		dbPort     = "5432"
+		dbHost     = os.Getenv("DB_HOST")
+		dbPort     = os.Getenv("DB_PORT")
 		dbDatabase = "todo"
 		dbSsl      = "disable"
 	)
@@ -24,7 +32,8 @@ func Open() (*gorm.DB, error) {
 	db, err := gorm.Open(pg.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		return nil, errors.New("Failed to connect to database")
+		// return nil, errors.New("Failed to connect to database")
+		return nil, fmt.Errorf("Failed to connect to database: %w", err)
 	}
 
 	return db, nil
