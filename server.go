@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -34,10 +34,11 @@ func main() {
 	r := gin.Default()
 	r.POST("/query", graphqlHandler())
 	r.GET("/", playgroundHandler())
-
-	err := r.Run(":8084")
+	fmt.Printf("Starting....")
+	err := r.Run(":8086")
 
 	if err != nil {
-		errors.New("Failed to start server. Please check your port.")
+		fmt.Println(err)
+		// errors.New("Failed to start server. Please check your port.")
 	}
 }
