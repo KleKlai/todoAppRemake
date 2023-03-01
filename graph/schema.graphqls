@@ -31,6 +31,16 @@ type User {
     @goTag(key: "gorm", value: "foreignKey:UserID;references:ID")
 }
 
+type UpdateTodoStatus {
+  id: ID!
+  status: Boolean!
+}
+
+type UpdateTodoTask {
+  id: ID!
+  task: String!
+}
+
 input CreateTodoInput {
   task: String!
   userId: String!
@@ -41,12 +51,29 @@ input CreateUserInput {
   name: String!
 }
 
+input UpdateTodoDoneInput {
+  id: ID!
+  status: Boolean!
+}
+
+input UpdateTodoTaskInput {
+  id: ID!
+  task: String!
+}
+
 type Query {
-  todos(userID: String!): [Todo!]!
+  todos: [Todo!]!
+  users: [User!]!
   user(id: String!): User!
+  todo(id: String!): Todo!
+  getTodoByStatus(userId: String!, status: Boolean!): [Todo!]!
 }
 
 type Mutation {
   createTodo(input: CreateTodoInput!): Todo!
   createUser(input: CreateUserInput!): User!
+  deleteTodo(id: ID!): Todo!
+  deleteUser(id: ID!): User!
+  updateTodoStatus(input: UpdateTodoDoneInput!): UpdateTodoStatus!
+  updateTodoTask(input: UpdateTodoTaskInput!): UpdateTodoTask!
 }

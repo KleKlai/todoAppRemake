@@ -25,7 +25,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=todo
     ports:
-      - 5432:5432
+      - 5438:5432
     volumes:
       - ./todo_schema.sql:/docker-entrypoint-initdb.d/todo_schema.sql
       - dbdata:/var/lib/postgresql/data
