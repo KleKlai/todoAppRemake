@@ -103,3 +103,18 @@ func (s *TodoService) UpdateTodoTask(todo model.UpdateTodoTaskInput) (*model.Tod
 
 	return res, nil
 }
+
+func (s *TodoService) UpdateTodoStatus(todo model.UpdateTodoStatusInput) (*model.Todo, error) {
+
+	t := model.Todo{
+		ID:     todo.ID,
+		Status: todo.Status,
+	}
+	res, err := s.repository.UpdateTodoStatus(t)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to update todo: %v", err)
+	}
+
+	return res, nil
+}

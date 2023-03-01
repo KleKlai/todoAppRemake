@@ -19,12 +19,12 @@ type Todo struct {
 	UserID string `json:"userID"`
 }
 
-type UpdateTodoDoneInput struct {
+type UpdateTodoStatus struct {
 	ID     string `json:"id"`
 	Status bool   `json:"status"`
 }
 
-type UpdateTodoStatus struct {
+type UpdateTodoStatusInput struct {
 	ID     string `json:"id"`
 	Status bool   `json:"status"`
 }

@@ -51,7 +51,7 @@ input CreateUserInput {
   name: String!
 }
 
-input UpdateTodoDoneInput {
+input UpdateTodoStatusInput {
   id: ID!
   status: Boolean!
 }
@@ -74,6 +74,6 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   deleteTodo(id: ID!): Todo!
   deleteUser(id: ID!): User!
-  updateTodoStatus(input: UpdateTodoDoneInput!): UpdateTodoStatus!
+  updateTodoStatus(input: UpdateTodoStatusInput!): UpdateTodoStatus!
   updateTodoTask(input: UpdateTodoTaskInput!): UpdateTodoTask!
 }

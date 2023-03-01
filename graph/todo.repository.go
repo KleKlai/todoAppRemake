@@ -11,6 +11,7 @@ type TodoRepository interface {
 	DeleteUser(string) (*model.User, error)
 	AddTodo(model.Todo) (*model.Todo, error)
 	UpdateTodoTask(model.Todo) (*model.Todo, error)
+	UpdateTodoStatus(model.Todo) (*model.Todo, error)
 	DeleteTodo(string) (*model.Todo, error)
 }
 
@@ -78,6 +79,15 @@ func (t *todoRepository) DeleteTodo(id string) (*model.Todo, error) {
 func (t *todoRepository) UpdateTodoTask(todo model.Todo) (*model.Todo, error) {
 
 	if err := t.db.Model(&todo).Where("id = ?", todo.ID).Update("task", todo.Task).Error; err != nil {
+		return nil, err
+	}
+
+	return &todo, nil
+}
+
+func (t *todoRepository) UpdateTodoStatus(todo model.Todo) (*model.Todo, error) {
+
+	if err := t.db.Model(&todo).Where("id = ?", todo.ID).Update("status", todo.Status).Error; err != nil {
 		return nil, err
 	}
 

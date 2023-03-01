@@ -42,10 +42,10 @@ func (m *TodoRepositoryMock) UpdateTodoTask(t model.Todo) (*model.Todo, error) {
 	return args.Get(0).(*model.Todo), args.Error(1)
 }
 
-// func (m *TodoRepositoryMock) UpdateTodoStatus(t model.Todo) (*model.Todo, error) {
-// 	args := m.Called(t)
-// 	return args.Get(0).(*model.Todo), args.Error(1)
-// }
+func (m *TodoRepositoryMock) UpdateTodoStatus(t model.Todo) (*model.Todo, error) {
+	args := m.Called(t)
+	return args.Get(0).(*model.Todo), args.Error(1)
+}
 
 func TestGetUser(t *testing.T) {
 
@@ -146,6 +146,25 @@ func TestUpdateTodoTask(t *testing.T) {
 		m.On("UpdateTodoTask", mock.Anything).Return(&model.Todo{}, nil)
 
 		_, err := s.UpdateTodoTask(input)
+
+		require.Nil(t, err)
+		m.AssertExpectations(t)
+	})
+}
+
+func TestUpdateTodoStatus(t *testing.T) {
+
+	m := &TodoRepositoryMock{}
+
+	s := NewTodoService(m)
+
+	input := model.UpdateTodoStatusInput{}
+
+	t.Run("success", func(t *testing.T) {
+
+		m.On("UpdateTodoStatus", mock.Anything).Return(&model.Todo{}, nil)
+
+		_, err := s.UpdateTodoStatus(input)
 
 		require.Nil(t, err)
 		m.AssertExpectations(t)

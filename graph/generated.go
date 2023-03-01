@@ -51,7 +51,7 @@ type ComplexityRoot struct {
 		CreateUser       func(childComplexity int, input model.CreateUserInput) int
 		DeleteTodo       func(childComplexity int, id string) int
 		DeleteUser       func(childComplexity int, id string) int
-		UpdateTodoStatus func(childComplexity int, input model.UpdateTodoDoneInput) int
+		UpdateTodoStatus func(childComplexity int, input model.UpdateTodoStatusInput) int
 		UpdateTodoTask   func(childComplexity int, input model.UpdateTodoTaskInput) int
 	}
 
@@ -92,7 +92,7 @@ type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	DeleteTodo(ctx context.Context, id string) (*model.Todo, error)
 	DeleteUser(ctx context.Context, id string) (*model.User, error)
-	UpdateTodoStatus(ctx context.Context, input model.UpdateTodoDoneInput) (*model.UpdateTodoStatus, error)
+	UpdateTodoStatus(ctx context.Context, input model.UpdateTodoStatusInput) (*model.UpdateTodoStatus, error)
 	UpdateTodoTask(ctx context.Context, input model.UpdateTodoTaskInput) (*model.UpdateTodoTask, error)
 }
 type QueryResolver interface {
@@ -179,7 +179,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateTodoStatus(childComplexity, args["input"].(model.UpdateTodoDoneInput)), true
+		return e.complexity.Mutation.UpdateTodoStatus(childComplexity, args["input"].(model.UpdateTodoStatusInput)), true
 
 	case "Mutation.updateTodoTask":
 		if e.complexity.Mutation.UpdateTodoTask == nil {
@@ -330,7 +330,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputCreateTodoInput,
 		ec.unmarshalInputCreateUserInput,
-		ec.unmarshalInputUpdateTodoDoneInput,
+		ec.unmarshalInputUpdateTodoStatusInput,
 		ec.unmarshalInputUpdateTodoTaskInput,
 	)
 	first := true
@@ -474,10 +474,10 @@ func (ec *executionContext) field_Mutation_deleteUser_args(ctx context.Context, 
 func (ec *executionContext) field_Mutation_updateTodoStatus_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.UpdateTodoDoneInput
+	var arg0 model.UpdateTodoStatusInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNUpdateTodoDoneInput2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoDoneInput(ctx, tmp)
+		arg0, err = ec.unmarshalNUpdateTodoStatusInput2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoStatusInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -874,7 +874,7 @@ func (ec *executionContext) _Mutation_updateTodoStatus(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateTodoStatus(rctx, fc.Args["input"].(model.UpdateTodoDoneInput))
+		return ec.resolvers.Mutation().UpdateTodoStatus(rctx, fc.Args["input"].(model.UpdateTodoStatusInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3740,8 +3740,8 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputUpdateTodoDoneInput(ctx context.Context, obj interface{}) (model.UpdateTodoDoneInput, error) {
-	var it model.UpdateTodoDoneInput
+func (ec *executionContext) unmarshalInputUpdateTodoStatusInput(ctx context.Context, obj interface{}) (model.UpdateTodoStatusInput, error) {
+	var it model.UpdateTodoStatusInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -4625,11 +4625,6 @@ func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋKleKlaiᚋtodoapprema
 	return ec._Todo(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUpdateTodoDoneInput2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoDoneInput(ctx context.Context, v interface{}) (model.UpdateTodoDoneInput, error) {
-	res, err := ec.unmarshalInputUpdateTodoDoneInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) marshalNUpdateTodoStatus2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoStatus(ctx context.Context, sel ast.SelectionSet, v model.UpdateTodoStatus) graphql.Marshaler {
 	return ec._UpdateTodoStatus(ctx, sel, &v)
 }
@@ -4642,6 +4637,11 @@ func (ec *executionContext) marshalNUpdateTodoStatus2ᚖgithubᚗcomᚋKleKlai�
 		return graphql.Null
 	}
 	return ec._UpdateTodoStatus(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNUpdateTodoStatusInput2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoStatusInput(ctx context.Context, v interface{}) (model.UpdateTodoStatusInput, error) {
+	res, err := ec.unmarshalInputUpdateTodoStatusInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUpdateTodoTask2githubᚗcomᚋKleKlaiᚋtodoappremakeᚋgraphᚋmodelᚐUpdateTodoTask(ctx context.Context, sel ast.SelectionSet, v model.UpdateTodoTask) graphql.Marshaler {

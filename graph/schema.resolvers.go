@@ -14,7 +14,6 @@ import (
 
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.CreateTodoInput) (*model.Todo, error) {
-
 	db, err := database.Open()
 
 	if err != nil {
@@ -78,7 +77,6 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, id string) (*model.To
 
 // DeleteUser is the resolver for the deleteUser field.
 func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.User, error) {
-
 	db, err := database.Open()
 
 	if err != nil {
@@ -99,7 +97,7 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.Us
 }
 
 // UpdateTodoStatus is the resolver for the updateTodoStatus field.
-func (r *mutationResolver) UpdateTodoStatus(ctx context.Context, input model.UpdateTodoDoneInput) (*model.UpdateTodoStatus, error) {
+func (r *mutationResolver) UpdateTodoStatus(ctx context.Context, input model.UpdateTodoStatusInput) (*model.UpdateTodoStatus, error) {
 	panic(fmt.Errorf("not implemented: UpdateTodoStatus - updateTodoStatus"))
 }
 
